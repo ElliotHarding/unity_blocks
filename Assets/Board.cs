@@ -57,25 +57,27 @@ public class Board : MonoBehaviour
     {
         int dir;
         int start;
+        int max;
+        int min;
         if (up)
         {
             dir = 1;
             start = 0;
+            max = 2;
+            min = -1;
         }
         else
         {
             dir = -1;
             start = 2;
+            max = 3;
+            min = -1;
         }
         
-        for(int y = start; y > -1 && y < 3; y+=dir)
+        for(int y = start; y > min && y < max; y+=dir)
         {
             for(int x = 0; x < 3; x++)
             {
-                if(y == 2 && dir == 1)
-                {
-                    break;
-                }
                 if(m_board[x,y] == null)
                 {
                     m_board[x,y] = m_board[x,y+dir];
@@ -92,25 +94,27 @@ public class Board : MonoBehaviour
     {
         int dir;
         int start;
+        int max;
+        int min;
         if (left)
         {
             dir = 1;
             start = 0;
+            min = -1;
+            max = 2;
         }
         else
         {
             dir = -1;
             start = 2;
+            min = -1;
+            max = 3;
         }
         
-        for(int x = start; x > -1 && x < 3; x+=dir)
+        for(int x = start; x > min && x < max; x+=dir)
         {
             for(int y = 0; y < 3; y++)
             {
-                if(x == 2 && dir == 1)
-                {
-                    break;
-                }
                 if(m_board[x,y] == null)
                 {
                     m_board[x,y] = m_board[x+dir,y];
