@@ -9,7 +9,6 @@ public class Board : MonoBehaviour
 
     public GameObject blockPrefabA;
     public GameObject blockPrefabB;
-    private bool m_bRequestSpawn = false;
 
     // Start is called before the first frame update
     void Start()
@@ -43,7 +42,6 @@ public class Board : MonoBehaviour
     {
         if(Input.GetKeyDown("up"))
         {
-            m_bRequestSpawn = true;
             MovementAnimationUpDown(true);
             MovementAnimationUpDown(true);
             SpawnNew();
@@ -51,7 +49,6 @@ public class Board : MonoBehaviour
         }
         else if (Input.GetKeyDown("down"))
         {
-            m_bRequestSpawn = true;
             MovementAnimationUpDown(false);
             MovementAnimationUpDown(false);
             SpawnNew();
@@ -59,7 +56,6 @@ public class Board : MonoBehaviour
         }
         else if (Input.GetKeyDown("left"))
         {
-            m_bRequestSpawn = true;
             MovementAnimationLeftRight(true);
             MovementAnimationLeftRight(true);
             SpawnNew();
@@ -67,7 +63,6 @@ public class Board : MonoBehaviour
         }
         else if (Input.GetKeyDown("right"))
         {
-            m_bRequestSpawn = true;
             MovementAnimationLeftRight(false);
             MovementAnimationLeftRight(false);
             SpawnNew();
@@ -153,8 +148,6 @@ public class Board : MonoBehaviour
 
     bool SpawnNew()
     {
-        m_bRequestSpawn = false;
-
         GameObject prefab;
         if (Random.Range(0, 2) == 1)
         {
@@ -218,12 +211,9 @@ public class Board : MonoBehaviour
             m_board[0,y].tag == m_board[1, y].tag && m_board[1, y].tag == m_board[2, y].tag
             )
             {
-                //Destroy(m_board[0, y]);
                 m_board[0, y].GetComponent<Block>().SetDestroy();
                 m_board[1, y].GetComponent<Block>().SetDestroy();
                 m_board[2, y].GetComponent<Block>().SetDestroy();
-                //Destroy(m_board[1, y]);
-                //Destroy(m_board[2, y]);
                 m_board[0, y] = null;
                 m_board[1, y] = null;
                 m_board[2, y] = null;
@@ -237,9 +227,6 @@ public class Board : MonoBehaviour
             m_board[x,0].tag == m_board[x, 1].tag && m_board[x, 1].tag == m_board[x, 2].tag
             )
             {
-                //Destroy(m_board[x, 0]);
-                //Destroy(m_board[x, 1]);
-                //Destroy(m_board[x, 2]);
                 m_board[x, 0].GetComponent<Block>().SetDestroy();
                 m_board[x, 1].GetComponent<Block>().SetDestroy();
                 m_board[x, 2].GetComponent<Block>().SetDestroy();
