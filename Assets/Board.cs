@@ -100,7 +100,6 @@ public class Board : MonoBehaviour
         {
             for(int x = 0; x < 3; x++)
             {
-                Debug.Log(x + " " + y);
                 if(m_board[x,y] == null && m_board[x,y+dir] != null)
                 {
                     m_board[x,y] = m_board[x,y+dir];
@@ -219,9 +218,12 @@ public class Board : MonoBehaviour
             m_board[0,y].tag == m_board[1, y].tag && m_board[1, y].tag == m_board[2, y].tag
             )
             {
-                Destroy(m_board[0, y]);
-                Destroy(m_board[1, y]);
-                Destroy(m_board[2, y]);
+                //Destroy(m_board[0, y]);
+                m_board[0, y].GetComponent<Block>().SetDestroy();
+                m_board[1, y].GetComponent<Block>().SetDestroy();
+                m_board[2, y].GetComponent<Block>().SetDestroy();
+                //Destroy(m_board[1, y]);
+                //Destroy(m_board[2, y]);
                 m_board[0, y] = null;
                 m_board[1, y] = null;
                 m_board[2, y] = null;
@@ -235,9 +237,12 @@ public class Board : MonoBehaviour
             m_board[x,0].tag == m_board[x, 1].tag && m_board[x, 1].tag == m_board[x, 2].tag
             )
             {
-                Destroy(m_board[x, 0]);
-                Destroy(m_board[x, 1]);
-                Destroy(m_board[x, 2]);
+                //Destroy(m_board[x, 0]);
+                //Destroy(m_board[x, 1]);
+                //Destroy(m_board[x, 2]);
+                m_board[x, 0].GetComponent<Block>().SetDestroy();
+                m_board[x, 1].GetComponent<Block>().SetDestroy();
+                m_board[x, 2].GetComponent<Block>().SetDestroy();
                 m_board[x, 0] = null;
                 m_board[x, 1] = null;
                 m_board[x, 2] = null;
