@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Board : MonoBehaviour
 {
@@ -9,6 +10,8 @@ public class Board : MonoBehaviour
 
     public GameObject blockPrefabA;
     public GameObject blockPrefabB;
+    public Text m_txtLevel;
+    private int m_level = 0;
 
     // Start is called before the first frame update
     void Start()
@@ -24,6 +27,7 @@ public class Board : MonoBehaviour
         m_boardPositions[2,2] = new Vector2(3.27f,-3.34f);
 
         m_board[1,1] = Instantiate(blockPrefabA, m_boardPositions[1,1], Quaternion.identity);
+        m_level = 0;
     }
 
     void LogBoard()
@@ -37,6 +41,12 @@ public class Board : MonoBehaviour
         }
     }
 
+    void incLevel()
+    {
+        m_level++;
+        m_txtLevel.text = "" + m_level;
+    }
+
     // Update is called once per frame
     void Update()
     {
@@ -46,6 +56,7 @@ public class Board : MonoBehaviour
             MovementAnimationUpDown(true);
             SpawnNew();
             CheckDelete();
+            incLevel();
         }
         else if (Input.GetKeyDown("down"))
         {
@@ -53,6 +64,7 @@ public class Board : MonoBehaviour
             MovementAnimationUpDown(false);
             SpawnNew();
             CheckDelete();
+            incLevel();
         }
         else if (Input.GetKeyDown("left"))
         {
@@ -60,6 +72,7 @@ public class Board : MonoBehaviour
             MovementAnimationLeftRight(true);
             SpawnNew();
             CheckDelete();
+            incLevel();
         }
         else if (Input.GetKeyDown("right"))
         {
@@ -67,6 +80,7 @@ public class Board : MonoBehaviour
             MovementAnimationLeftRight(false);
             SpawnNew();
             CheckDelete();
+            incLevel();
         }
     }
 
@@ -235,5 +249,24 @@ public class Board : MonoBehaviour
                 m_board[x, 2] = null;
             }
         }
+    }
+
+    public void Refresh()
+    {
+        for(int x = 0; x < 3; x++)
+        {
+            for (int y = 0; y < 3; y++)
+            {
+                if(m_board[x, y] != null)
+                {
+                    m_board[x, y].GetComponent<Block>().SetDestroy();
+                    m_board[x, y] = null;
+                }
+            }
+        }
+
+        m_board[1,1] = Instantiate(blockPrefabA, m_boardPositions[1,1], Quaternion.identity);
+        m_level = 0;
+        m_txtLevel.text = "" + m_level;
     }
 }
