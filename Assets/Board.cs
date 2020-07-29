@@ -13,6 +13,10 @@ public class Board : MonoBehaviour
     public Text m_txtLevel;
     private int m_level = 0;
 
+    private Vector2 firstPressPos;
+    private Vector2 secondPressPos;
+    private Vector2 currentSwipe;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -28,6 +32,7 @@ public class Board : MonoBehaviour
 
         m_board[1,1] = Instantiate(blockPrefabA, m_boardPositions[1,1], Quaternion.identity);
         m_level = 0;
+        m_txtLevel.text = "" + m_level;
     }
 
     void LogBoard()
@@ -81,6 +86,60 @@ public class Board : MonoBehaviour
             SpawnNew();
             CheckDelete();
             incLevel();
+        }
+
+        if(Input.touches.Length > 0)
+        {
+            Touch t = Input.GetTouch(0);
+
+            if(t.phase == TouchPhase.Began)
+            {
+                //save began touch 2d point
+                firstPressPos = new Vector2(t.position.x,t.position.y);
+            }
+
+            if(t.phase == TouchPhase.Ended)
+            {
+                secondPressPos = new Vector2(t.position.x,t.position.y);  
+                currentSwipe = new Vector3(secondPressPos.x - firstPressPos.x, secondPressPos.y - firstPressPos.y);
+                currentSwipe.Normalize();
+
+                if(currentSwipe.y > 0 && currentSwipe.x > -0.5f && currentSwipe.x < 0.5f)
+                {
+                    MovementAnimationUpDown(true);
+                    MovementAnimationUpDown(true);
+                    SpawnNew();
+                    CheckDelete();
+                    incLevel();
+                }
+
+                if(currentSwipe.y < 0 && currentSwipe.x > -0.5f && currentSwipe.x < 0.5f)
+                {
+                    MovementAnimationUpDown(false);
+                    MovementAnimationUpDown(false);
+                    SpawnNew();
+                    CheckDelete();
+                    incLevel();
+                }
+
+                if(currentSwipe.x < 0 && currentSwipe.y > -0.5f && currentSwipe.y < 0.5f)
+                {
+                    MovementAnimationLeftRight(true);
+                    MovementAnimationLeftRight(true);
+                    SpawnNew();
+                    CheckDelete();
+                    incLevel();
+                }
+
+                if(currentSwipe.x > 0 && currentSwipe.y > -0.5f && currentSwipe.y < 0.5f)
+                {
+                    MovementAnimationLeftRight(false);
+                    MovementAnimationLeftRight(false);
+                    SpawnNew();
+                    CheckDelete();
+                    incLevel();
+                }
+            }
         }
     }
 
@@ -176,37 +235,37 @@ public class Board : MonoBehaviour
         {
             m_board[0,0] = Instantiate(prefab, m_boardPositions[0,0], Quaternion.identity);
         }
-        else if(m_board[0,1] == null)
-        {
-            m_board[0,1] = Instantiate(prefab, m_boardPositions[0,1], Quaternion.identity);
-        }
         else if(m_board[0,2] == null)
         {
             m_board[0,2] = Instantiate(prefab, m_boardPositions[0,2], Quaternion.identity);
-        }
-        else if(m_board[1,0] == null)
-        {
-            m_board[1,0] = Instantiate(prefab, m_boardPositions[1,0], Quaternion.identity);
-        }
-        else if(m_board[1,1] == null)
-        {
-            m_board[1,1] = Instantiate(prefab, m_boardPositions[1,1], Quaternion.identity);
-        }
-        else if(m_board[1,2] == null)
-        {
-            m_board[1,2] = Instantiate(prefab, m_boardPositions[1,2], Quaternion.identity);
         }
         else if(m_board[2,0] == null)
         {
             m_board[2,0] = Instantiate(prefab, m_boardPositions[2,0], Quaternion.identity);
         }
+        else if(m_board[2,2] == null)
+        {
+            m_board[2,2] = Instantiate(prefab, m_boardPositions[2,2], Quaternion.identity);
+        }
+        else if(m_board[0,1] == null)
+        {
+            m_board[0,1] = Instantiate(prefab, m_boardPositions[0,1], Quaternion.identity);
+        }        
+        else if(m_board[1,0] == null)
+        {
+            m_board[1,0] = Instantiate(prefab, m_boardPositions[1,0], Quaternion.identity);
+        }
+        else if(m_board[1,2] == null)
+        {
+            m_board[1,2] = Instantiate(prefab, m_boardPositions[1,2], Quaternion.identity);
+        }
         else if(m_board[2,1] == null)
         {
             m_board[2,1] = Instantiate(prefab, m_boardPositions[2,1], Quaternion.identity);
         }
-        else if(m_board[2,2] == null)
+        else if(m_board[1,1] == null)
         {
-            m_board[2,2] = Instantiate(prefab, m_boardPositions[2,2], Quaternion.identity);
+            m_board[1,1] = Instantiate(prefab, m_boardPositions[1,1], Quaternion.identity);
         }
         else
         {
